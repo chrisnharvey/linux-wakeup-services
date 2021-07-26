@@ -20,5 +20,5 @@ if grep -qw ^$2.*$requiredState /proc/acpi/wakeup; then
     sudo sh -c "echo $2 > /proc/acpi/wakeup"
 else
     echo "$2 is not $requiredState or does not exist"
-    exit 3
+    exit 0
 fi
