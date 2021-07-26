@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $1 != "enable" ] && [ $1 != "disable" ]; then
+    echo "Invalid operation. You can only enable or disable ACPI wakeup codes"
+    exit 1
+fi
+
+if [ -z $2 ]; then
+    echo "No code specified"
+    exit 2
+fi
+
+if [ $1 = "disable" ]; then
+    requiredState="enabled"
+else
+    requiredState="disabled"
+fi
+
+if grep -qw ^$2.*$requiredState /proc/acpi/wakeup; then
+    sudo sh -c "echo $2 > /proc/acpi/wakeup"
+else
+    echo "$2 is not $requiredState or does not exist"
+    exit 3
+fi
